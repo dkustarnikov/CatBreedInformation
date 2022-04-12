@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -98,7 +99,14 @@ public class MainActivity extends AppCompatActivity implements SelectBreedFragme
                         Log.d("Error.Response", error.toString());
                     }
                 }
-        );
+        ) {
+            @Override
+            public Map getHeaders() throws AuthFailureError {
+                HashMap headers = new HashMap();
+                headers.put("x-api-key", Constants.API_KEY);
+                return headers;
+            }
+        };
 
         // Add the request to the RequestQueue.
         MySingleton.getInstance(this).addToRequestQueue(getRequest);
